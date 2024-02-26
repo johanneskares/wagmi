@@ -31,8 +31,11 @@ export function getAction<
   // will not work. For that case, the consumer needs to pass the name explicitly.
   name: keyof PublicActions | keyof WalletActions,
 ): (parameters: parameters) => returnType {
-  const action = client[actionFn.name ?? name]
-  if (typeof action === 'function')
-    return action as (params: parameters) => returnType
+  const fnAction = client[actionFn.name]
+  if (typeof fnAction === 'function')
+    return fnAction as (params: parameters) => returnType
+  const nameAction = client[name]
+  if (typeof nameAction === 'fuction')
+    return nameAction as (params: parameters) => returnType
   return (params) => actionFn(client, params)
 }
